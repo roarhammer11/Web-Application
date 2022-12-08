@@ -1,0 +1,147 @@
+/*html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}*/
+
+body {
+    margin: 0;
+    font-family: "Lato", sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.sidebar {
+    margin: 0;
+    padding: 0;
+    width: 490px;
+    max-width: 490px;
+    background-color: #444444;
+    position: fixed;
+    height: 100%;
+}
+
+    .sidebar > * {
+        color: white;
+    }
+
+    .sidebar > h1 {
+        height: 4.375rem;
+        width: 16.5rem;
+    }
+
+    .sidebar > h5 {
+        height: 2.438rem;
+        width: 4.063rem;
+    }
+
+    .sidebar a {
+        display: block;
+        padding: 16px;
+        text-decoration: none;
+    }
+
+
+        .sidebar a.active {
+            background-color: #04AA6D;
+            color: white;
+        }
+
+        .sidebar a:hover:not(.active) {
+            background-color: #555;
+            color: white;
+        }
+
+div.content {
+    margin-left: 200px;
+    padding: 1px 16px;
+    height: 1000px;
+}
+
+/*Index*/
+.website-name {
+    margin: auto;
+    height: 4.375rem;
+    width: 16.5rem;
+}
+
+.index-container {
+    margin: auto;
+    width: 21.75rem;
+    margin-top: 10rem;
+}
+
+    .index-container form > button {
+        width: 21.75rem;
+        height: 3.063rem;
+    }
+
+    .index-container form > input {
+        width: 21.75rem;
+        height: 3.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .index-container form > h5 {
+        width: 4.375rem;
+        height: 2.438rem;
+    }
+
+h5 {
+    font-size: 28px;
+}
+
+h1, h5 {
+    padding: 0;
+    margin: 0;
+}
+
+hr {
+    width: 21.75rem;
+}
+
+/*Dashboard*/
+.main-body {
+    position: absolute;
+    margin-left: 31rem;
+}
+
+.container-fluid {
+    margin-top: 7rem;
+}
+
+.dvd-container > div {
+    margin-right: 6rem;
+    margin-bottom: 6rem;
+    max-width: 160px;
+    text-align: center;
+}
+
+/*EditDVD*/
+table {
+    table-layout: fixed;
+}
+
+td {
+    word-wrap: break-word;
+}
+
+th, td {
+    text-align: center;
+}

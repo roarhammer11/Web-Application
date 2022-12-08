@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CIS2103_Website</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @*<link rel="stylesheet" href="~/CIS2103_Website.styles.css" asp-append-version="true" />*@
+</head>
+<body>
+    <div class="sidebar">
+        <h1 style="margin:auto;">DVD Rental</h1>
+        <div class="d-flex">
+            <h5 style="margin-left: 3rem;">Admin</h5>
+            <h5 style="margin-left: 10rem;">Cash</h5>
+        </div>
+        <a id="Home" class='active' href="/Home/Dashboard" >Home</a>
+        <a id="EditDVD" asp-action="EditDVD">Edit DVD</a>
+        <a id="AddDVD" href="#contact">Add DVD</a>
+        <a id="Cart" href="#about">Cart</a>
+        <a id="Transactions" href="#contact">Transactions</a>
+        <a id="Accounts" href="#about">Accounts</a>
+        <a class="position-absolute bottom-0 start-0"style="padding-left: 4rem; padding-right: 4rem;" href="#contact">name</a>
+        <a class="position-absolute bottom-0 end-0" style="padding-left: 4rem; padding-right: 4rem;"href="/">Logout</a>
+    </div>
+
+    <div class="main-body">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
