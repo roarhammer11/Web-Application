@@ -15,12 +15,12 @@
             <h5 style="margin-left: 3rem;">Admin</h5>
             <h5 style="margin-left: 10rem;">Cash</h5>
         </div>
-        <a id="Home" class='active' href="/Home/Dashboard" >Home</a>
+        <a id="Home" asp-action="Dashboard" >Home</a>
         <a id="EditDVD" asp-action="EditDVD">Edit DVD</a>
-        <a id="AddDVD" href="#contact">Add DVD</a>
-        <a id="Cart" href="#about">Cart</a>
-        <a id="Transactions" href="#contact">Transactions</a>
-        <a id="Accounts" href="#about">Accounts</a>
+        <a id="AddDVD" @*asp-action="Add DVD"*@>Add DVD</a>
+        <a id="Cart" @*asp-action="Cart"*@>Cart</a>
+        <a id="Transactions" asp-action="Transactions">Transactions</a>
+        <a id="Accounts" asp-action="Accounts">Accounts</a>
         <a class="position-absolute bottom-0 start-0"style="padding-left: 4rem; padding-right: 4rem;" href="#contact">name</a>
         <a class="position-absolute bottom-0 end-0" style="padding-left: 4rem; padding-right: 4rem;"href="/">Logout</a>
     </div>

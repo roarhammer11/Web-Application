@@ -29,10 +29,21 @@ namespace CIS2103_Website.Controllers
         [Route("Home/Dashboard/EditDVD")]
         public IActionResult EditDVD()
         {
-            ViewBag.Active = "blue";
+
             return View();
         }
 
+        [Route("Home/Dashboard/Transactions")]
+        public IActionResult Transactions()
+        {
+            return View();
+        }
+
+        [Route("Home/Dashboard/Accounts")]
+        public IActionResult Accounts()
+        {
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();

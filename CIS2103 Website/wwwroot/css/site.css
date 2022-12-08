@@ -16,7 +16,6 @@ html {
 body {
   margin-bottom: 60px;
 }*/
-
 body {
     margin: 0;
     font-family: "Lato", sans-serif;
@@ -124,14 +123,16 @@ hr {
 
 .container-fluid {
     margin-top: 7rem;
+    
 }
 
 .dvd-container > div {
-    margin-right: 6rem;
+    margin-right: 7rem;
     margin-bottom: 6rem;
     max-width: 160px;
     text-align: center;
 }
+
 
 /*EditDVD*/
 table {
@@ -144,4 +145,69 @@ td {
 
 th, td {
     text-align: center;
+}
+
+
+#searchbar-container {
+    top: 0;
+    max-height:4rem;
+}
+
+.searchbar {
+    margin-bottom: auto;
+    margin-top: auto;
+    height: 60px;
+    background-color: #353b48;
+    border-radius: 30px;
+    padding: 10px;
+}
+
+.searchbar > p{
+    margin-top: 0.5rem;
+    color: white;
+    transition: width 0.4s linear;
+}
+
+.search_input {
+    color: white;
+    border: 0;
+    outline: 0;
+    background: none;
+    width: 0;
+    caret-color: transparent;
+    line-height: 40px;
+    transition: width 0.4s linear;
+}
+
+.searchbar:hover > .search_input {
+    padding: 0 10px;
+    width: 450px;
+    caret-color: red;
+    transition: width 0.4s linear;
+}
+.searchbar:hover > p {
+    visibility: hidden;
+    transition: visibility 0.4s linear, opacity 0.4s linear, display 0.4s;
+    opacity: 0;
+}
+.searchbar > p {
+    transition: visibility 0.4s linear, opacity 0.4s linear;
+    visibility: visible;
+}
+.searchbar:hover > .search_icon {
+    background: white;
+    color: #e74c3c;
+    display: block;
+}
+
+.search_icon {
+    display: none;
+    height: 40px;
+    width: 40px;
+    float: right;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    color: white;
+    text-decoration: none;
 }

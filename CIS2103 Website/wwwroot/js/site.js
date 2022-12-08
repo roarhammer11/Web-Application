@@ -22,6 +22,8 @@ if (pathName == "/Home/Dashboard") {
     setActive(home);
 } else if (pathName == "/Home/Dashboard/EditDVD") {
     setActive(editDVD);
+} else if (pathName == "/Home/Dashboard/Transactions") {
+    setActive(transactions);
 }
 
 function setActive(element) {
