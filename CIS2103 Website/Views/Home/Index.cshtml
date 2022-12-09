@@ -1,17 +1,74 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
-
-<div class="text-center index-container">
+﻿<div class="text-center index-container">
     <h1 class="website-name">DVD Rental</h1>
     <form action="/Home/Dashboard">
         <h5>Email</h5>
         <input />
         <h5>Password</h5>
         <input />
-        <button type="submit">Sign in</button>
+        <button type="submit">Sign In</button>
     </form>
     <hr />
     <h6 class="text-center">Forgot password?</h6>
-    <h6 class="text-center">Do not have an account? <a>Sign up</a></h6>
+    <h6 class="text-center">Do not have an account? 
+        <button
+          id="modalButton"
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#sign-up"
+          asp-action="AddAccountForm"
+        >Sign Up
+        </button>
+    </h6>
+    <div class="modal fade" id="sign-up" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 w-100" id="staticBackdropLabel">Sign Up</h1>
+                    <button type="button" id="close-modal-button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">              
+                    <form asp-action="AddAccountCode" id="signup-form">
+                        <div class=" mb-4">
+                            <label class="form-label" for="FirstName">First Name</label>
+                            <input type="text"  class="form-control form-control-lg" name="FirstName" id="FirstName" required />                      
+                        </div>
+                        <div class=" mb-4">
+                            <label class="form-label" for="LastName">Last Name</label>
+                            <input type="text"  class="form-control form-control-lg" name="LastName" id="LastName" required />
+                        </div>
+                        <div class=" mb-4">
+                            <label class="form-label" for="Email">Email</label>
+                            <input type="email"  class="form-control form-control-lg" name="Email" id="Email" required />
+                            
+                        </div>
+                        <div class=" mb-4">
+                            <label class="form-label" for="Password">Password</label>
+                            <input type="password"  class="form-control form-control-lg" name="Password" id="Password" required />
+                            
+                        </div>
+                        <div class=" mb-4">
+                            <label class="form-label" for="PasswordRepeat">Repeat your password</label>
+                            <input type="password" class="form-control form-control-lg" name="PasswordRepeat" id="PasswordRepeat" required />
+                            
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button type="submit"
+                                    class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">
+                                Register
+                            </button>
+                        </div>
+                    </form>
+                </div>
+               
+            </div>
+        </div>
+    </div>
 </div>
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            alert("@ViewBag.Message");
+        };
+    </script>
+}

@@ -1,15 +1,14 @@
 ﻿using CIS2103_Website.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using System.Dynamic;
-
+using System.Data.SqlClient;
 namespace CIS2103_Website.Controllers
 {
 
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
+        SqlConnection con = new SqlConnection(@"Data Source=DESKTOP-CD2O8JK;Initial Catalog=CIS2103;Integrated Security=True");
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -19,7 +18,6 @@ namespace CIS2103_Website.Controllers
         {
             return View();
         }
-
 
         public IActionResult Dashboard()
         {
@@ -43,6 +41,22 @@ namespace CIS2103_Website.Controllers
         public IActionResult Accounts()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddAccountCode(IFormCollection fc)
+        {
+            if (fc.Count != 0)
+            {
+                con.Open();
+                SqlCommand cmd = con.CreateCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.CommandText = "INSERT INTO Accounts VALUES('" + fc["FirstName"] + "','" + fc["LastName"] + "'" +
+                                  ",'" + "Active" + "','" + "User" + "','" + fc["Email"] + "','" + fc["Password"] + "','" + "0" + "')";
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+            return View("Index");
         }
         public IActionResult Privacy()
         {

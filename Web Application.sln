@@ -5,7 +5,7 @@ VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CIS2103 Template", "WebApplication1\CIS2103 Template.csproj", "{142862FA-E299-427A-A679-F8804DB89383}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CIS2103 Website", "CIS2103 Website\CIS2103 Website.csproj", "{70519178-7D2A-443B-96E0-C0B726BB2ECD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CIS2103 Website", "CIS2103 Website\CIS2103 Website.csproj", "{70519178-7D2A-443B-96E0-C0B726BB2ECD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

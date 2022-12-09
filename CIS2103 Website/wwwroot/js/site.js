@@ -22,8 +22,14 @@ if (pathName == "/Home/Dashboard") {
     setActive(home);
 } else if (pathName == "/Home/Dashboard/EditDVD") {
     setActive(editDVD);
+} else if (pathName == "/Home/Dashboard/AddDVD") {
+    setActive(addDVD);
+} else if (pathName == "/Home/Dashboard/Cart") {
+    setActive(cart);
 } else if (pathName == "/Home/Dashboard/Transactions") {
     setActive(transactions);
+} else if (pathName == "/Home/Dashboard/Accounts") {
+    setActive(accounts);
 }
 
 function setActive(element) {
@@ -33,7 +39,35 @@ function setActive(element) {
     for (var x = 0; x < 4; x++) {
         if (elementArray[x].classList.contains("active")) {
             elementArray[x].classList.remove("active");
-        }   
+        }
     }
 }
+
+const form = document.getElementById('signup-form');
+const closeModalButton = document.getElementById("close-modal-button");
+form.addEventListener('submit', function handleSubmit(event) {
+    event.preventDefault();
+    const firstName = $("#FirstName").val().trim();
+    const lastName = $("#LastName").val().trim();
+    const email = $("#Email").val().trim();
+    const password = $("#Password").val().trim()
+    const passwordRepeat = $("#PasswordRepeat").val().trim();
+    if (password != passwordRepeat) {
+        alert("Password Mismatch");
+    } else if (password == passwordRepeat) {
+        const formData = new FormData();
+        formData.append("FirstName", firstName);
+        formData.append("LastName", lastName);
+        formData.append("Email", email);
+        formData.append("Password", password);
+        fetch("/Home/AddAccountCode", { method: "POST", body: formData })
+            .catch((error) => {
+                console.log(error);
+            });
+        alert("Successfuly Added " + firstName + " " + lastName + " to the database.");
+        closeModalButton.click();
+        form.reset();
+    }
+});
+
 
