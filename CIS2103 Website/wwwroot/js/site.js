@@ -60,11 +60,20 @@ form.addEventListener('submit', function handleSubmit(event) {
         formData.append("LastName", lastName);
         formData.append("Email", email);
         formData.append("Password", password);
-        fetch("/Home/AddAccountCode", { method: "POST", body: formData })
+        fetch("/Home/AddAccount", { method: "POST", body: formData })
+            .then((response) => {
+                if (response.ok) {
+                    alert("Successfuly Added " + firstName + " " + lastName + " to the database.");
+                } else if (response.status == 409) {
+                    alert("Account already exists");
+                } else {
+                    alert("Server could not process at the moment");
+                }
+            })
             .catch((error) => {
                 console.log(error);
             });
-        alert("Successfuly Added " + firstName + " " + lastName + " to the database.");
+        
         closeModalButton.click();
         form.reset();
     }
