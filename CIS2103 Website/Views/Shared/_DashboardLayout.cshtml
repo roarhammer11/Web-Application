@@ -12,16 +12,16 @@
     <div class="sidebar">
         <h1 style="margin:auto;">DVD Rental</h1>
         <div class="d-flex">
-            <h5 style="margin-left: 3rem;">Admin</h5>
-            <h5 style="margin-left: 10rem;">Cash</h5>
+            <h5 style="margin-left: 3rem;">@ViewData["Privilege"]</h5>
+            <h5 style="margin-left: 10rem;">Cash : @ViewData["Cash"]</h5>
         </div>
-        <a id="Home" asp-action="Dashboard" >Home</a>
-        <a id="EditDVD" asp-action="EditDVD">Edit DVD</a>
+        <a id="Home" asp-action="Dashboard" asp-route-accountId="@ViewData["AccountId"]">Home</a>
+        <a id="EditDVD" asp-action="EditDVD" asp-route-accountId="@ViewData["AccountId"]">Edit DVD</a>
         <a id="AddDVD" @*asp-action="Add DVD"*@>Add DVD</a>
         <a id="Cart" @*asp-action="Cart"*@>Cart</a>
-        <a id="Transactions" asp-action="Transactions">Transactions</a>
-        <a id="Accounts" asp-action="Accounts">Accounts</a>
-        <a class="position-absolute bottom-0 start-0"style="padding-left: 4rem; padding-right: 4rem;" href="#contact">name</a>
+        <a id="Transactions" asp-action="Transactions" asp-route-accountId="@ViewData["AccountId"]">Transactions</a>
+        <a id="Accounts" asp-action="Accounts" asp-route-accountId="@ViewData["AccountId"]">Accounts</a>
+        <a class="position-absolute bottom-0 start-0"style="padding-left: 4rem; padding-right: 4rem;" href="#contact">@ViewData["FirstName"] @ViewData["LastName"]</a>
         <a class="position-absolute bottom-0 end-0" style="padding-left: 4rem; padding-right: 4rem;"href="/">Logout</a>
     </div>
 

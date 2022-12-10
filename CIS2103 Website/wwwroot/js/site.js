@@ -43,40 +43,68 @@ function setActive(element) {
     }
 }
 
-const form = document.getElementById('signup-form');
+const signupForm = document.getElementById('signup-form');
+const signinForm = document.getElementById("signin-form");
 const closeModalButton = document.getElementById("close-modal-button");
-form.addEventListener('submit', function handleSubmit(event) {
-    event.preventDefault();
-    const firstName = $("#FirstName").val().trim();
-    const lastName = $("#LastName").val().trim();
-    const email = $("#Email").val().trim();
-    const password = $("#Password").val().trim()
-    const passwordRepeat = $("#PasswordRepeat").val().trim();
-    if (password != passwordRepeat) {
-        alert("Password Mismatch");
-    } else if (password == passwordRepeat) {
+if (currentUrl == "https://localhost:7260/") {
+    signupForm.addEventListener('submit', function handleSubmit(event) {
+        event.preventDefault();
+        const firstName = $("#FirstName").val().trim();
+        const lastName = $("#LastName").val().trim();
+        const email = $("#Email").val().trim();
+        const password = $("#Password").val().trim()
+        const passwordRepeat = $("#PasswordRepeat").val().trim();
+        if (password != passwordRepeat) {
+            alert("Password Mismatch");
+        } else if (password == passwordRepeat) {
+            const formData = new FormData();
+            formData.append("FirstName", firstName);
+            formData.append("LastName", lastName);
+            formData.append("Email", email);
+            formData.append("Password", password);
+            fetch("/Home/SignUp", { method: "POST", body: formData })
+                .then((response) => {
+                    if (response.ok) {
+                        alert("Successfuly Added " + firstName + " " + lastName + " to the database.");
+                        closeModalButton.click();
+                        signupForm.reset();
+                    } else if (response.status == 409) {
+                        alert("Email already exists");
+                    } else {
+                        alert("Server could not process at the moment");
+                    }
+                }).catch((error) => {
+                    console.log(error);
+                }
+                );
+        }
+    });
+
+    signinForm.addEventListener('submit', function handleSubmit(event) {
+        event.preventDefault();
+        const email = $("#EmailSignIn").val().trim();
+        const password = $("#PasswordSignIn").val().trim()
         const formData = new FormData();
-        formData.append("FirstName", firstName);
-        formData.append("LastName", lastName);
         formData.append("Email", email);
         formData.append("Password", password);
-        fetch("/Home/AddAccount", { method: "POST", body: formData })
+        fetch("/Home/SignIn", { method: "POST", body: formData })
             .then((response) => {
                 if (response.ok) {
-                    alert("Successfuly Added " + firstName + " " + lastName + " to the database.");
-                } else if (response.status == 409) {
-                    alert("Account already exists");
+                    response.json().then((data) => {
+                        window.location.href = "Home/Dashboard?accountId=" + data.accountId;
+                    });
+                    signinForm.reset();
+                } else if (response.status == 401) {
+                    alert("Account does not exist");
                 } else {
                     alert("Server could not process at the moment");
                 }
-            })
-            .catch((error) => {
+            }).catch((error) => {
                 console.log(error);
-            });
-        
-        closeModalButton.click();
-        form.reset();
-    }
-});
+            }
+            );
+    });
+}
+
 
 

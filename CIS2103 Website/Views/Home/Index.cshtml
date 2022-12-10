@@ -1,10 +1,13 @@
-﻿<div class="text-center index-container">
+﻿@{
+    ViewData["Title"] = "DVD Rental";
+}
+<div class="text-center index-container">
     <h1 class="website-name">DVD Rental</h1>
-    <form action="/Home/Dashboard">
+    <form action="/Home/SignIn" id="signin-form">
         <h5>Email</h5>
-        <input />
+        <input type="text" id="EmailSignIn" required />
         <h5>Password</h5>
-        <input />
+        <input type="password" id="PasswordSignIn" required />
         <button type="submit">Sign In</button>
     </form>
     <hr />
@@ -27,7 +30,7 @@
                     <button type="button" id="close-modal-button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">              
-                    <form asp-action="AddAccount" id="signup-form">
+                    <form asp-action="SignUp" id="signup-form">
                         <div class=" mb-4">
                             <label class="form-label" for="FirstName">First Name</label>
                             <input type="text"  class="form-control form-control-lg" name="FirstName" id="FirstName" required />                      
