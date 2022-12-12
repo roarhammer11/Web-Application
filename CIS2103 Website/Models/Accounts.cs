@@ -100,6 +100,13 @@ namespace CIS2103_Website.Models
             return checkCredentials ? Ok("Account Sucessfully Updated") : Unauthorized();
         }
 
+        public IActionResult DeleteAccountCode(string email)
+        {
+            string deleteAccountQuery = "DELETE FROM Accounts WHERE email='" + email + "'";         
+            Query(deleteAccountQuery);
+            return Ok("Account Deleted Sucessfully");
+        }
+
         private bool CheckIfEmailExists(string email)
         {
             bool retVal = false;

@@ -84,6 +84,8 @@ if (currentUrl == "https://localhost:7260/") {
     });
 } else {
     const accountUpdateCredentialsForm = document.getElementById("account-settings-form");
+    const accountDeleteForm = document.getElementById("account-settings-form-delete");
+    const closeModalButton = document.getElementById("close-modal-button");
     if (privilege == "User") {
         editDVD.style.display = "none";
         addDVD.style.display = "none";
@@ -125,6 +127,8 @@ if (currentUrl == "https://localhost:7260/") {
                     if (response.ok) {
                         response.text().then((data) => {
                             alert(data);
+                            closeModalButton.click();
+                            accountUpdateCredentialsForm.reset();
                         });
                     } else if (response.status == 401) {
                         alert("Invalid Credentials");
@@ -138,7 +142,33 @@ if (currentUrl == "https://localhost:7260/") {
         } else {
             alert("Password Mismatch");
         }
+    });
 
+    accountDeleteForm.addEventListener('submit', function handleSubmit(event) {
+        event.preventDefault();
+        const email = $("#OldEmail").val().trim();
+        const deleteInput = $("#DeleteAccount").val().trim()
+        if (deleteInput == "DELETE") {
+            const formData = new FormData();
+            formData.append("Email", email);
+
+            fetch("/Home/DeleteAccount", { method: "POST", body: formData })
+                .then((response) => {
+                    if (response.ok) {
+                        response.text().then((data) => {
+                            alert(data);
+                            window.location.href = "/";
+                        });
+                    } else {
+                        alert("Server could not process at the moment");
+                    }
+                }).catch((error) => {
+                    console.log(error);
+                }
+                );
+        } else {
+            alert("Please input DELETE to proceed");
+        }
     });
 
     function setActive(element) {

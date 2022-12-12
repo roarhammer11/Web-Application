@@ -83,6 +83,11 @@ namespace CIS2103_Website.Controllers
             return accounts.UpdateAccountCredentialsCode(fc);
         }
 
+        public IActionResult DeleteAccount(IFormCollection fc)
+        {
+            return accounts.DeleteAccountCode(fc["Email"]);
+        }
+
         public IActionResult Privacy()
         {
             return View();
