@@ -2,6 +2,8 @@
 using System.Data.SqlClient;
 using System.Xml.Linq;
 using System.Data;
+using System.Text.Json.Nodes;
+
 namespace CIS2103_Website.Models
 {
 
@@ -13,7 +15,7 @@ namespace CIS2103_Website.Models
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         public IActionResult SignUpCode(IFormCollection fc)
         {
-            bool checkAccount = CheckIfEmailExists(fc);
+            bool checkAccount = CheckIfEmailExists(fc["Email"]);
             if (checkAccount == false)
             {
                 string signUpQuery = "INSERT INTO Accounts VALUES('" + fc["FirstName"] + "','" + fc["LastName"] + "'" +
@@ -29,7 +31,7 @@ namespace CIS2103_Website.Models
         public IActionResult SignInCode(IFormCollection fc)
         {
             AccountModel account = new();
-            bool checkAccount = CheckIfEmailExists(fc);
+            bool checkAccount = CheckIfEmailExists(fc["Email"]);
             if (checkAccount == true)
             {
                 string signInQuery = "SELECT * FROM Accounts " +
@@ -44,7 +46,8 @@ namespace CIS2103_Website.Models
             return checkAccount ? Ok(account) : Unauthorized();
         }
 
-        public IActionResult GetAccountCode(int accountId)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public IActionResult GetAccountByIdCode(int accountId)
         {
             string getAccountQuery = "SELECT * FROM Accounts " +
                                     "WHERE accountId='" + accountId + "'";
@@ -52,6 +55,15 @@ namespace CIS2103_Website.Models
             return Ok(account);
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public IActionResult GetAccountByEmailCode(string email)
+        {
+            string getAccountQuery = "SELECT * FROM Accounts " +
+                                    "WHERE email='" + email + "'";
+            AccountModel account = ReadAccountQuery(getAccountQuery);
+            return Ok(account);
+        }
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult GetAllAccountsCode()
         {
             string getAccountIdQuery = "SELECT accountId FROM Accounts";
@@ -67,11 +79,32 @@ namespace CIS2103_Website.Models
             return Ok(accounts);
         }
 
-        private bool CheckIfEmailExists(IFormCollection fc)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public IActionResult UpdateAccountCredentialsCode(IFormCollection fc)
+        {
+            bool checkCredentials = true;
+            var objectResult = (OkObjectResult)GetAccountByEmailCode(fc["OldEmail"]);
+            AccountModel accountModel = (AccountModel)objectResult.Value!;
+            if (accountModel.Password == fc["OldPassword"])
+            {
+                string updateAccountCredentialsQuery = "UPDATE Accounts SET email='" + fc["NewEmail"] + "',password='" + fc["NewPassword"] +
+                                                    "' WHERE accountId='" + accountModel.AccountId + "'";
+                Query(updateAccountCredentialsQuery);
+            }
+            else
+            {
+                checkCredentials = false;
+            }
+
+            return checkCredentials ? Ok("Account Sucessfully Updated") : Unauthorized();
+        }
+
+        private bool CheckIfEmailExists(string email)
         {
             bool retVal = false;
             string checkIfAccountExistsQuery = "SELECT COUNT(*) FROM Accounts " +
-                                                "WHERE email='" + fc["Email"] + "'";
+                                                "WHERE email='" + email + "'";
             if (ReadSingleDataQuery(checkIfAccountExistsQuery) == "1")
             {
                 retVal = true;

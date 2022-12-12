@@ -74,6 +74,15 @@ namespace CIS2103_Website.Controllers
         {
             return accounts.GetAllAccountsCode();
         }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public IActionResult UpdateAccountCredentials(IFormCollection fc)
+        {
+            return accounts.UpdateAccountCredentialsCode(fc);
+        }
+
         public IActionResult Privacy()
         {
             return View();
@@ -99,7 +108,7 @@ namespace CIS2103_Website.Controllers
         {
             try
             {
-                var objectResult = (OkObjectResult)accounts.GetAccountCode(accountId);
+                var objectResult = (OkObjectResult)accounts.GetAccountByIdCode(accountId);
                 accountModel = (AccountModel)objectResult.Value!;
                 ViewData["AccountId"] = accountModel.AccountId;
                 ViewData["FirstName"] = accountModel.FirstName;

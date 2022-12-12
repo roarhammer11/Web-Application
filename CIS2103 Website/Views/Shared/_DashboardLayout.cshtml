@@ -22,10 +22,73 @@
         <a id="Cart" @*asp-action="Cart"*@>Cart</a>
         <a id="Transactions" asp-action="Transactions" asp-route-accountId="@ViewData["AccountId"]">Transactions</a>
         <a id="Accounts" asp-action="Accounts" asp-route-accountId="@ViewData["AccountId"]">Accounts</a>
-        <a class="position-absolute bottom-0 start-0"style="padding-left: 4rem; padding-right: 4rem;" href="#contact">@ViewData["FirstName"] @ViewData["LastName"]</a>
+        <a id="modalButton" data-bs-toggle="modal"
+           data-bs-target="#account-settings" class="position-absolute bottom-0 start-0" style="padding-left: 4rem; padding-right: 4rem;" href="#contact">@ViewData["FirstName"] @ViewData["LastName"]</a>
         <a class="position-absolute bottom-0 end-0" style="padding-left: 4rem; padding-right: 4rem;"href="/">Logout</a>
     </div>
-
+    <div class="modal fade" id="account-settings" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h1 class="modal-title fs-5 w-100" id="staticBackdropLabel">Update Account</h1>
+                    <button type="button" id="close-modal-button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <button  id="modalButton" data-bs-dismiss="modal" data-bs-toggle="modal"  
+           data-bs-target="#account-settings-delete" class="btn btn-danger position-absolute end-0 me-3"> Delete Account</button>
+                    <form asp-action="" class="mt-5"id="account-settings-form">
+                        <input type="email" class="form-control form-control-lg" name="Email" id="OldEmail" value="@ViewData["Email"]" hidden />
+                        <div class=" mb-4">
+                            <label class="form-label" for="Email">Email</label>
+                            <input type="email" class="form-control form-control-lg" name="NewEmail" id="NewEmail" value="@ViewData["Email"]" required />
+                        </div>
+                        <div class=" mb-4">
+                            <label class="form-label" for="Password">Old Password</label>
+                            <input type="password" class="form-control form-control-lg" name="OldPassword" id="OldPassword" required />
+                        </div>
+                        <div class=" mb-4">
+                            <label class="form-label" for="Password">New Password</label>
+                            <input type="password" class="form-control form-control-lg" name="NewPassword" id="NewPassword" required />
+                        </div>
+                        <div class=" mb-4">
+                            <label class="form-label" for="PasswordRepeat">Repeat your password</label>
+                            <input type="password" class="form-control form-control-lg" name="NewPasswordRepeat" id="NewPasswordRepeat" required />
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button type="submit"
+                                    class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">
+                                Update Account
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="account-settings-delete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h1 class="modal-title fs-5 w-100" id="staticBackdropLabel">Delete Account</h1>
+                    <button type="button" id="close-modal-button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form asp-action="" id="account-settings-form-delete">
+                        <div class=" mb-4">
+                            <p>Enter the word DELETE to delete account</p>
+                            <input type="text" class="form-control form-control-lg" name="DeleteAccount" id="Delete Account" required />
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button type="submit"
+                                    class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">
+                                Delete Account
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="main-body">
         <main role="main" class="pb-3">
             @RenderBody()

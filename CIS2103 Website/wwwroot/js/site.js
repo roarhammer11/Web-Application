@@ -68,7 +68,7 @@ if (currentUrl == "https://localhost:7260/") {
             .then((response) => {
                 if (response.ok) {
                     response.json().then((data) => {
-                        accountId = data.accountId;
+                        /*accountId = data.accountId;*/
                         window.location.href = "Home/Dashboard?accountId=" + data.accountId;
                     });
                     signinForm.reset();
@@ -83,6 +83,7 @@ if (currentUrl == "https://localhost:7260/") {
             );
     });
 } else {
+    const accountUpdateCredentialsForm = document.getElementById("account-settings-form");
     if (privilege == "User") {
         editDVD.style.display = "none";
         addDVD.style.display = "none";
@@ -105,6 +106,41 @@ if (currentUrl == "https://localhost:7260/") {
         setActive(accounts);
         getAllAccounts();
     }
+
+    accountUpdateCredentialsForm.addEventListener('submit', function handleSubmit(event) {
+        event.preventDefault();
+        const oldEmail = $("#OldEmail").val().trim();
+        const newEmail = $("#NewEmail").val().trim();
+        const oldPassword = $("#OldPassword").val().trim()
+        const newPassword = $("#NewPassword").val().trim();
+        const newPasswordRepeat = $("#NewPasswordRepeat").val().trim()
+        if (newPassword == newPasswordRepeat) {
+            const formData = new FormData();
+            formData.append("OldEmail", oldEmail);
+            formData.append("NewEmail", newEmail);
+            formData.append("OldPassword", oldPassword);
+            formData.append("NewPassword", newPassword);
+            fetch("/Home/UpdateAccountCredentials", { method: "POST", body: formData })
+                .then((response) => {
+                    if (response.ok) {
+                        response.text().then((data) => {
+                            alert(data);
+                        });
+                    } else if (response.status == 401) {
+                        alert("Invalid Credentials");
+                    } else {
+                        alert("Server could not process at the moment");
+                    }
+                }).catch((error) => {
+                    console.log(error);
+                }
+                );
+        } else {
+            alert("Password Mismatch");
+        }
+
+    });
+
     function setActive(element) {
         const index = elementArray.indexOf(element);
         elementArray[index].classList.add("active");
@@ -144,7 +180,7 @@ if (currentUrl == "https://localhost:7260/") {
 
                         }
                     });
-                }else {
+                } else {
                     alert("Server could not process at the moment");
                 }
             }).catch((error) => {
