@@ -5,10 +5,10 @@
     <h1 class="website-name">DVD Rental</h1>
     <form action="/Home/SignIn" id="signin-form">
         <h5>Email</h5>
-        <input type="text" id="EmailSignIn" required />
+        <input type="email" id="EmailSignIn" required />
         <h5>Password</h5>
         <input type="password" id="PasswordSignIn" required />
-        <button type="submit">Sign In</button>
+        <button class="btn btn-primary"  type="submit">Sign In</button>
     </form>
     <hr />
     <h6 class="text-center">Forgot password?</h6>
@@ -67,11 +67,11 @@
         </div>
     </div>
 </div>
-@if (ViewBag.Message != null)
+@*@if (ViewBag.Message != null)
 {
     <script type="text/javascript">
         window.onload = function () {
             alert("@ViewBag.Message");
         };
     </script>
-}
+}*@

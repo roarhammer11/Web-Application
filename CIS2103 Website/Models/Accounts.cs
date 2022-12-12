@@ -34,7 +34,7 @@ namespace CIS2103_Website.Models
             {
                 string signInQuery = "SELECT * FROM Accounts " +
                                      "WHERE email='" + fc["Email"] + "'";
-                account = ReadDataQuery(signInQuery);
+                account = ReadAccountQuery(signInQuery);
                 if (account.Password != fc["Password"])
                 {
                     checkAccount = false;
@@ -44,12 +44,27 @@ namespace CIS2103_Website.Models
             return checkAccount ? Ok(account) : Unauthorized();
         }
 
-        public IActionResult GetAccount(int accountId)
+        public IActionResult GetAccountCode(int accountId)
         {
             string getAccountQuery = "SELECT * FROM Accounts " +
                                     "WHERE accountId='" + accountId + "'";
-            AccountModel account = ReadDataQuery(getAccountQuery);
+            AccountModel account = ReadAccountQuery(getAccountQuery);
             return Ok(account);
+        }
+
+        public IActionResult GetAllAccountsCode()
+        {
+            string getAccountIdQuery = "SELECT accountId FROM Accounts";
+            List<string> accountIds = ReadMultipleDataQuery(getAccountIdQuery);
+            int accountIdCount = accountIds.Count;
+            AccountModel[] accounts = new AccountModel[accountIdCount];
+
+            for (int i = 0; i < accountIdCount; i++)
+            {
+                string getAccountQuery = "SELECT * FROM Accounts WHERE accountId=" + accountIds[i];
+                accounts[i] = ReadAccountQuery(getAccountQuery);
+            }
+            return Ok(accounts);
         }
 
         private bool CheckIfEmailExists(IFormCollection fc)
@@ -91,7 +106,25 @@ namespace CIS2103_Website.Models
             return retVal;
         }
 
-        private AccountModel ReadDataQuery(string query)
+        private List<string> ReadMultipleDataQuery(string query)
+        {
+            var list = new List<string>();
+            con.Open();
+            SqlCommand cmd = con.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = query;
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    list.Add(reader["accountId"].ToString()!);
+                }
+            }
+            con.Close();
+            return list;
+        }
+
+        private AccountModel ReadAccountQuery(string query)
         {
             AccountModel account = new();
             con.Open();

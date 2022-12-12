@@ -18,30 +18,7 @@ elementArray.push(cart);
 elementArray.push(transactions);
 elementArray.push(accounts);
 
-if (pathName == "/Home/Dashboard") {
-    setActive(home);
-} else if (pathName == "/Home/Dashboard/EditDVD") {
-    setActive(editDVD);
-} else if (pathName == "/Home/Dashboard/AddDVD") {
-    setActive(addDVD);
-} else if (pathName == "/Home/Dashboard/Cart") {
-    setActive(cart);
-} else if (pathName == "/Home/Dashboard/Transactions") {
-    setActive(transactions);
-} else if (pathName == "/Home/Dashboard/Accounts") {
-    setActive(accounts);
-}
 
-function setActive(element) {
-    const index = elementArray.indexOf(element);
-    elementArray[index].classList.add("active");
-    elementArray.splice(index, 1);
-    for (var x = 0; x < 4; x++) {
-        if (elementArray[x].classList.contains("active")) {
-            elementArray[x].classList.remove("active");
-        }
-    }
-}
 
 const signupForm = document.getElementById('signup-form');
 const signinForm = document.getElementById("signin-form");
@@ -91,11 +68,12 @@ if (currentUrl == "https://localhost:7260/") {
             .then((response) => {
                 if (response.ok) {
                     response.json().then((data) => {
+                        accountId = data.accountId;
                         window.location.href = "Home/Dashboard?accountId=" + data.accountId;
                     });
                     signinForm.reset();
                 } else if (response.status == 401) {
-                    alert("Account does not exist");
+                    alert("Invalid Credentials");
                 } else {
                     alert("Server could not process at the moment");
                 }
@@ -104,7 +82,76 @@ if (currentUrl == "https://localhost:7260/") {
             }
             );
     });
-}
+} else {
+    if (privilege == "User") {
+        editDVD.style.display = "none";
+        addDVD.style.display = "none";
+        accounts.style.display = "none";
+    } else if (privilege == "Staff") {
+        accounts.style.display = "none";
+    }
 
+    if (title == "Dashboard") {
+        setActive(home);
+    } else if (title == "Edit DVD") {
+        setActive(editDVD);
+    } else if (title == "Add DVD") {
+        setActive(addDVD);
+    } else if (title == "Cart") {
+        setActive(cart);
+    } else if (title == "Transactions") {
+        setActive(transactions);
+    } else if (title == "Accounts") {
+        setActive(accounts);
+        getAllAccounts();
+    }
+    function setActive(element) {
+        const index = elementArray.indexOf(element);
+        elementArray[index].classList.add("active");
+        elementArray.splice(index, 1);
+        for (var x = 0; x < 4; x++) {
+            if (elementArray[x].classList.contains("active")) {
+                elementArray[x].classList.remove("active");
+            }
+        }
+    }
+
+    function getAllAccounts() {
+        const accountsTable = document.getElementById("accountsTable");
+        fetch("/Home/GetAllAccounts", { method: "GET" })
+            .then((response) => {
+                if (response.ok) {
+                    response.json().then((data) => {
+                        const dataLength = Object.keys(data).length;
+                        for (var x = 0; x < dataLength; x++) {
+                            let tableRow = document.createElement("tr");
+                            let firstName = document.createElement("td");
+                            let lastName = document.createElement("td");
+                            let status = document.createElement("td");
+                            let privilege = document.createElement("td");
+                            let actions = document.createElement("td");
+                            firstName.innerHTML = data[x].firstName;
+                            lastName.innerHTML = data[x].lastName;
+                            status.innerHTML = data[x].status;
+                            privilege.innerHTML = data[x].privilege;
+                            actions.innerHTML = "Edit";
+                            tableRow.appendChild(firstName);
+                            tableRow.appendChild(lastName);
+                            tableRow.appendChild(status);
+                            tableRow.appendChild(privilege);
+                            tableRow.appendChild(actions);
+                            accountsTable.appendChild(tableRow);
+
+                        }
+                    });
+                }else {
+                    alert("Server could not process at the moment");
+                }
+            }).catch((error) => {
+                console.log(error);
+            }
+            );
+    }
+}
 
 

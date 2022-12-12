@@ -24,7 +24,7 @@ namespace CIS2103_Website.Controllers
         [Route("Home/Dashboard")]
         public IActionResult Dashboard(int accountId)
         {
-            setAccount(accountId);
+            SetAccount(accountId);
             return View();
         }
 
@@ -32,7 +32,7 @@ namespace CIS2103_Website.Controllers
         [Route("Home/Dashboard/EditDVD")]
         public IActionResult EditDVD(int accountId)
         {
-            setAccount(accountId);
+            SetAccount(accountId);
             return View();
         }
 
@@ -40,7 +40,7 @@ namespace CIS2103_Website.Controllers
         [Route("Home/Dashboard/Transactions")]
         public IActionResult Transactions(int accountId)
         {
-            setAccount(accountId);
+            SetAccount(accountId);
             return View();
         }
 
@@ -48,7 +48,7 @@ namespace CIS2103_Website.Controllers
         [Route("Home/Dashboard/Accounts")]
         public IActionResult Accounts(int accountId)
         {
-            setAccount(accountId);
+            SetAccount(accountId);
             return View();
         }
 
@@ -57,7 +57,7 @@ namespace CIS2103_Website.Controllers
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         public IActionResult SignUp(IFormCollection fc)
         {
-            return StatusCode(getStatusCode((StatusCodeResult)accounts.SignUpCode(fc), fc.Count));
+            return StatusCode(GetStatusCode((StatusCodeResult)accounts.SignUpCode(fc), fc.Count));
         }
 
         [HttpPost]
@@ -68,6 +68,12 @@ namespace CIS2103_Website.Controllers
             return accounts.SignInCode(fc);
         }
 
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public IActionResult GetAllAccounts()
+        {
+            return accounts.GetAllAccountsCode();
+        }
         public IActionResult Privacy()
         {
             return View();
@@ -79,7 +85,7 @@ namespace CIS2103_Website.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        private int getStatusCode(StatusCodeResult modelStatusCode, int fcCount)
+        private static int GetStatusCode(StatusCodeResult modelStatusCode, int fcCount)
         {
             int statusCode = 0;
             if (fcCount != 0)
@@ -89,11 +95,11 @@ namespace CIS2103_Website.Controllers
             return statusCode;
         }
 
-        private void setAccount(int accountId)
+        private void SetAccount(int accountId)
         {
             try
             {
-                var objectResult = (OkObjectResult)accounts.GetAccount(accountId);
+                var objectResult = (OkObjectResult)accounts.GetAccountCode(accountId);
                 accountModel = (AccountModel)objectResult.Value!;
                 ViewData["AccountId"] = accountModel.AccountId;
                 ViewData["FirstName"] = accountModel.FirstName;
