@@ -14,7 +14,7 @@
         <h1 style="margin:auto;">DVD Rental</h1>
         <div class="d-flex">
             <h5 style="margin-left: 3rem;">@ViewData["Privilege"]</h5>
-            <h5 style="margin-left: 10rem;">Cash : @ViewData["Cash"]</h5>
+            <h5 id ="cash-label"style="margin-left: 10rem;">Cash : @ViewData["Cash"]</h5>
         </div>
         <a id="Home" asp-action="Dashboard" asp-route-accountId="@ViewData["AccountId"]">Home</a>
         <a id="EditDVD" asp-action="EditDVD" asp-route-accountId="@ViewData["AccountId"]">Edit DVD</a>
@@ -22,10 +22,44 @@
         <a id="Cart" @*asp-action="Cart"*@>Cart</a>
         <a id="Transactions" asp-action="Transactions" asp-route-accountId="@ViewData["AccountId"]">Transactions</a>
         <a id="Accounts" asp-action="Accounts" asp-route-accountId="@ViewData["AccountId"]">Accounts</a>
-        <a id="modalButton" data-bs-toggle="modal"
-           data-bs-target="#account-settings" class="position-absolute bottom-0 start-0" style="padding-left: 4rem; padding-right: 4rem;" href="#contact">@ViewData["FirstName"] @ViewData["LastName"]</a>
+        <div id="Account-Dropdown" class="btn-group dropup position-absolute bottom-0 start-0 pe-auto">
+            <a class="dropdown-toggle" style="padding-left: 4rem; padding-right: 4rem;" data-bs-toggle="dropdown" aria-expanded="false">
+                @ViewData["FirstName"] @ViewData["LastName"]
+            </a>
+            <ul class="dropdown-menu">
+                <!-- Dropdown menu links -->
+                <li><a id="modalButton" data-bs-toggle="modal" data-bs-target="#add-cash" class="dropdown-item" href="#">Add Cash</a></li>
+                <li>
+                    <a id="modalButton" data-bs-toggle="modal"
+                       data-bs-target="#account-settings" class="dropdown-item " 
+                        >Account Settings</a>
+                </li>  
+            </ul>
+        </div>
+        
         <a class="position-absolute bottom-0 end-0" style="padding-left: 4rem; padding-right: 4rem;"href="/">Logout</a>
     </div>
+    @*Add Cash Modal*@
+    <div class="modal fade" id="add-cash" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h1 class="modal-title fs-5 w-100" id="exampleModalLabel">Add Cash</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="add-cash-form" class="text-center">
+                        <input type="number" id="AccountId" value="@ViewData["AccountId"]"hidden />
+                        <h3>Input Amount</h3>
+                        <input type="number" class="form-control form-control-lg" name="CashAmount" id="CashAmount" placeholder="Cash" />
+                        <div class="d-flex justify-content-center"><button type="submit" class="btn btn-primary">Save changes</button></div>
+                    </form>
+                </div>
+             
+            </div>
+        </div>
+    </div>
+    @*Account Settings Modal*@
     <div class="modal fade" id="account-settings" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog ">
             <div class="modal-content">
@@ -36,7 +70,7 @@
                 <div class="modal-body">
                     <button  id="modalButton" data-bs-dismiss="modal" data-bs-toggle="modal"  
            data-bs-target="#account-settings-delete" class="btn btn-danger position-absolute end-0 me-3"> Delete Account</button>
-                    <form asp-action="" class="mt-5"id="account-settings-form">
+                    <form class="mt-5"id="account-settings-form">
                         <input type="email" class="form-control form-control-lg" name="Email" id="OldEmail" value="@ViewData["Email"]" hidden />
                         <div class=" mb-4">
                             <label class="form-label" for="Email">Email</label>
@@ -73,7 +107,7 @@
                     <button type="button" id="close-modal-button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form asp-action="" id="account-settings-form-delete">
+                    <form id="account-settings-form-delete">
                         <div class=" mb-4">
                             <p>Enter the word DELETE to delete account</p>
                             <input type="text" class="form-control form-control-lg" name="DeleteAccount" id="DeleteAccount" required />

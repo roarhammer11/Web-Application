@@ -88,6 +88,11 @@ namespace CIS2103_Website.Controllers
             return accounts.DeleteAccountCode(fc["Email"]);
         }
 
+        public IActionResult AddCash(IFormCollection fc)
+        {           
+            return accounts.AddCashCode(fc);
+        }
+
         public IActionResult Privacy()
         {
             return View();

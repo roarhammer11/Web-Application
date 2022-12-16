@@ -85,6 +85,7 @@ if (currentUrl == "https://localhost:7260/") {
 } else {
     const accountUpdateCredentialsForm = document.getElementById("account-settings-form");
     const accountDeleteForm = document.getElementById("account-settings-form-delete");
+    const addCashForm = document.getElementById("add-cash-form");
     const closeModalButton = document.getElementById("close-modal-button");
     if (privilege == "User") {
         editDVD.style.display = "none";
@@ -169,6 +170,31 @@ if (currentUrl == "https://localhost:7260/") {
         } else {
             alert("Please input DELETE to proceed");
         }
+    });
+
+    addCashForm.addEventListener('submit', function handleSubmit(event) {
+        event.preventDefault();
+        const cashAmount = $("#CashAmount").val().trim();
+        const accountId = $("#AccountId").val().trim();
+        const cashLabel = document.getElementById("cash-label");
+        const formData = new FormData();
+        formData.append("CashAmount", cashAmount);
+        formData.append("AccountId", accountId);
+        fetch("/Home/AddCash", { method: "POST", body: formData })
+            .then((response) => {
+                if (response.ok) {
+                    response.json().then((data) => {
+                        alert(data.message);
+                        cashLabel.innerHTML = "Cash : " + data.cash;
+                    });
+                } else {
+                    alert("Server could not process at the moment");
+                }
+            }).catch((error) => {
+                console.log(error);
+            }
+            );
+
     });
 
     function setActive(element) {

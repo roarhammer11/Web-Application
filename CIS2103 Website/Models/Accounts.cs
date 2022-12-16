@@ -102,9 +102,20 @@ namespace CIS2103_Website.Models
 
         public IActionResult DeleteAccountCode(string email)
         {
-            string deleteAccountQuery = "DELETE FROM Accounts WHERE email='" + email + "'";         
+            string deleteAccountQuery = "DELETE FROM Accounts WHERE email='" + email + "'";
             Query(deleteAccountQuery);
             return Ok("Account Deleted Sucessfully");
+        }
+
+        public IActionResult AddCashCode(IFormCollection fc)
+        {
+            string getAccountCashQuery = "SELECT cash FROM Accounts WHERE accountId='" + fc["AccountId"] + "'";
+            int currentCash = int.Parse(ReadSingleDataQuery(getAccountCashQuery));
+            int updatedCash = currentCash + int.Parse(fc["CashAmount"]);
+            string updateAccountCashQuery = "UPDATE Accounts SET cash='" + updatedCash + "' WHERE accountId='" + fc["AccountId"] + "'";
+            Query(updateAccountCashQuery);
+            JsonNode data = JsonNode.Parse("{\"message\": \"Cash Updated Sucessfully\", \"cash\": \"" + updatedCash + "\"}")!;
+            return Ok(data);
         }
 
         private bool CheckIfEmailExists(string email)
