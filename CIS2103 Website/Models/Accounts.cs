@@ -9,18 +9,18 @@ namespace CIS2103_Website.Models
 
     public class Accounts : ControllerBase
     {
-        SqlConnection con = new SqlConnection(@"Data Source=DESKTOP-CD2O8JK;Initial Catalog=CIS2103;Integrated Security=True");
+        Database db = new Database();
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         public IActionResult SignUpCode(IFormCollection fc)
         {
-            bool checkAccount = CheckIfEmailExists(fc["Email"]);
+            bool checkAccount = db.CheckIfEmailExists(fc["Email"]);
             if (checkAccount == false)
             {
                 string signUpQuery = "INSERT INTO Accounts VALUES('" + fc["FirstName"] + "','" + fc["LastName"] + "'" +
                             ",'" + "Active" + "','" + "User" + "','" + fc["Email"] + "','" + fc["Password"] + "','" + "0" + "')";
-                Query(signUpQuery);
+                db.Query(signUpQuery);
             }
 
             return checkAccount ? Conflict() : Ok();
@@ -31,12 +31,12 @@ namespace CIS2103_Website.Models
         public IActionResult SignInCode(IFormCollection fc)
         {
             AccountModel account = new();
-            bool checkAccount = CheckIfEmailExists(fc["Email"]);
+            bool checkAccount = db.CheckIfEmailExists(fc["Email"]);
             if (checkAccount == true)
             {
                 string signInQuery = "SELECT * FROM Accounts " +
                                      "WHERE email='" + fc["Email"] + "'";
-                account = ReadAccountQuery(signInQuery);
+                account = db.ReadAccountQuery(signInQuery);
                 if (account.Password != fc["Password"])
                 {
                     checkAccount = false;
@@ -51,7 +51,7 @@ namespace CIS2103_Website.Models
         {
             string getAccountQuery = "SELECT * FROM Accounts " +
                                     "WHERE accountId='" + accountId + "'";
-            AccountModel account = ReadAccountQuery(getAccountQuery);
+            AccountModel account = db.ReadAccountQuery(getAccountQuery);
             return Ok(account);
         }
 
@@ -60,21 +60,21 @@ namespace CIS2103_Website.Models
         {
             string getAccountQuery = "SELECT * FROM Accounts " +
                                     "WHERE email='" + email + "'";
-            AccountModel account = ReadAccountQuery(getAccountQuery);
+            AccountModel account = db.ReadAccountQuery(getAccountQuery);
             return Ok(account);
         }
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult GetAllAccountsCode()
         {
             string getAccountIdQuery = "SELECT accountId FROM Accounts";
-            List<string> accountIds = ReadMultipleDataQuery(getAccountIdQuery);
+            List<string> accountIds = db.ReadMultipleDataQuery(getAccountIdQuery, "accountId");
             int accountIdCount = accountIds.Count;
             AccountModel[] accounts = new AccountModel[accountIdCount];
 
             for (int i = 0; i < accountIdCount; i++)
             {
                 string getAccountQuery = "SELECT * FROM Accounts WHERE accountId=" + accountIds[i];
-                accounts[i] = ReadAccountQuery(getAccountQuery);
+                accounts[i] = db.ReadAccountQuery(getAccountQuery);
             }
             return Ok(accounts);
         }
@@ -90,7 +90,7 @@ namespace CIS2103_Website.Models
             {
                 string updateAccountCredentialsQuery = "UPDATE Accounts SET email='" + fc["NewEmail"] + "',password='" + fc["NewPassword"] +
                                                     "' WHERE accountId='" + accountModel.AccountId + "'";
-                Query(updateAccountCredentialsQuery);
+                db.Query(updateAccountCredentialsQuery);
             }
             else
             {
@@ -103,101 +103,19 @@ namespace CIS2103_Website.Models
         public IActionResult DeleteAccountCode(string email)
         {
             string deleteAccountQuery = "DELETE FROM Accounts WHERE email='" + email + "'";
-            Query(deleteAccountQuery);
+            db.Query(deleteAccountQuery);
             return Ok("Account Deleted Sucessfully");
         }
 
         public IActionResult AddCashCode(IFormCollection fc)
         {
             string getAccountCashQuery = "SELECT cash FROM Accounts WHERE accountId='" + fc["AccountId"] + "'";
-            int currentCash = int.Parse(ReadSingleDataQuery(getAccountCashQuery));
+            int currentCash = int.Parse(db.ReadSingleDataQuery(getAccountCashQuery));
             int updatedCash = currentCash + int.Parse(fc["CashAmount"]);
             string updateAccountCashQuery = "UPDATE Accounts SET cash='" + updatedCash + "' WHERE accountId='" + fc["AccountId"] + "'";
-            Query(updateAccountCashQuery);
+            db.Query(updateAccountCashQuery);
             JsonNode data = JsonNode.Parse("{\"message\": \"Cash Updated Sucessfully\", \"cash\": \"" + updatedCash + "\"}")!;
             return Ok(data);
-        }
-
-        private bool CheckIfEmailExists(string email)
-        {
-            bool retVal = false;
-            string checkIfAccountExistsQuery = "SELECT COUNT(*) FROM Accounts " +
-                                                "WHERE email='" + email + "'";
-            if (ReadSingleDataQuery(checkIfAccountExistsQuery) == "1")
-            {
-                retVal = true;
-            }
-            return retVal;
-        }
-
-        private void Query(string query)
-        {
-            con.Open();
-            SqlCommand cmd = con.CreateCommand();
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = query;
-            cmd.ExecuteNonQuery();
-            con.Close();
-        }
-        private string ReadSingleDataQuery(string query)
-        {
-            string retVal = "";
-            con.Open();
-            SqlCommand cmd = con.CreateCommand();
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = query;
-            using (SqlDataReader reader = cmd.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    retVal = string.Format("{0}", reader[0]);
-                }
-            }
-            con.Close();
-            return retVal;
-        }
-
-        private List<string> ReadMultipleDataQuery(string query)
-        {
-            var list = new List<string>();
-            con.Open();
-            SqlCommand cmd = con.CreateCommand();
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = query;
-            using (SqlDataReader reader = cmd.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    list.Add(reader["accountId"].ToString()!);
-                }
-            }
-            con.Close();
-            return list;
-        }
-
-        private AccountModel ReadAccountQuery(string query)
-        {
-            AccountModel account = new();
-            con.Open();
-            SqlCommand cmd = con.CreateCommand();
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = query;
-            using (SqlDataReader reader = cmd.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    account.AccountId = (int)reader["accountId"];
-                    account.FirstName = (string)reader["firstName"];
-                    account.LastName = (string)reader["lastName"];
-                    account.Status = (string)reader["status"];
-                    account.Privilege = (string)reader["privilege"];
-                    account.Email = (string)reader["email"];
-                    account.Password = (string)reader["password"];
-                    account.Cash = (decimal)reader["cash"];
-                }
-            }
-            con.Close();
-            return account;
         }
     }
 

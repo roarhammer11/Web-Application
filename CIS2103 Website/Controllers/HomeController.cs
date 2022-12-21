@@ -2,12 +2,15 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Collections.Specialized;
+using System.Text;
+
 namespace CIS2103_Website.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         private readonly Accounts accounts = new();
+        private readonly DVDs dvds = new();
         private AccountModel? accountModel = new();
         public HomeController(ILogger<HomeController> logger)
         {
@@ -52,6 +55,22 @@ namespace CIS2103_Website.Controllers
             return View();
         }
 
+        [HttpGet("Home/Dashboard/AddDVD/{accountId}")]
+        [Route("Home/Dashboard/AddDVD")]
+        public IActionResult AddDVD(int accountId)
+        {
+            SetAccount(accountId);
+            return View();
+        }
+
+        [HttpGet("Home/Dashboard/Cart/{accountId}")]
+        [Route("Home/Dashboard/Cart")]
+        public IActionResult Cart(int accountId)
+        {
+            SetAccount(accountId);
+            return View();
+        }
+
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
@@ -89,8 +108,27 @@ namespace CIS2103_Website.Controllers
         }
 
         public IActionResult AddCash(IFormCollection fc)
-        {           
+        {
             return accounts.AddCashCode(fc);
+        }
+
+
+        public IActionResult AddDVD(IFormCollection fc)
+        {
+            return dvds.AddDVDCode(fc);
+
+        }
+
+        public IActionResult EditDVD(IFormCollection fc)
+        {
+            return dvds.EditDVDCode(fc);
+        }
+
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public IActionResult GetAllDVDs()
+        {
+            return dvds.GetAllDVDsCode();
         }
 
         public IActionResult Privacy()

@@ -16,118 +16,44 @@
 </div>
     
 <div class="container-fluid">
-    <div class="ms-3 d-flex dvd-container flex-wrap">
-        <div class="d-flex flex-column flex-wrap">
+    <div class="ms-3 d-flex dvd-container flex-wrap" id="dvds">
+        @*<div class="d-flex flex-column flex-wrap">
             <a href="#">
-                <img src="https://via.placeholder.com/160x200" width="160" height="200" >
+                <img src="https://via.placeholder.com/210x315" width="210" height="315">
                 <p >
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
                 </p>
             </a>            
         </div>
-        <div class="d-flex flex-column flex-wrap">
-            <a href="#">
-                <img src="https://via.placeholder.com/160x200" width="160" height="200" >
-                <p >
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-                </p>
-            </a>            
-        </div>
-        <div class="d-flex flex-column flex-wrap">
-            <a href="#">
-                <img src="https://via.placeholder.com/160x200" width="160" height="200" >
-                <p >
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-                </p>
-            </a>           
-        </div>
-        <div class="d-flex flex-column flex-wrap">
-            <a href="#">
-                <img src="https://via.placeholder.com/160x200" width="160" height="200" >
-                <p >
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-                </p>
-            </a>            
-        </div>
-        <div class="d-flex flex-column flex-wrap">
-            <a href="#">
-                <img src="https://via.placeholder.com/160x200" width="160" height="200" >
-                <p >
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-                </p>
-            </a>       
-        </div>
-       <div class="d-flex flex-column flex-wrap">
-            <a href="#">
-                <img src="https://via.placeholder.com/160x200" width="160" height="200" >
-                <p >
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-                </p>
-            </a>            
-        </div>
-        <div class="d-flex flex-column flex-wrap">
-            <a href="#">
-                <img src="https://via.placeholder.com/160x200" width="160" height="200" >
-                <p >
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-                </p>
-            </a>            
-        </div>
-        <div class="d-flex flex-column flex-wrap">
-            <a href="#">
-                <img src="https://via.placeholder.com/160x200" width="160" height="200">
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-                </p>
-            </a>
-        </div>
-        <div class="d-flex flex-column flex-wrap">
-            <a href="#">
-                <img src="https://via.placeholder.com/160x200" width="160" height="200" >
-                <p >
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-                </p>
-            </a>            
-        </div>
-        <div class="d-flex flex-column flex-wrap">
-            <a href="#">
-                <img src="https://via.placeholder.com/160x200" width="160" height="200" >
-                <p >
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-                </p>
-            </a>            
-        </div>
-        <div class="d-flex flex-column flex-wrap">
-            <a href="#">
-                <img src="https://via.placeholder.com/160x200" width="160" height="200" >
-                <p >
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-                </p>
-            </a>            
-        </div>
-        <div class="d-flex flex-column flex-wrap">
-            <a href="#">
-                <img src="https://via.placeholder.com/160x200" width="160" height="200" >
-                <p >
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-                </p>
-            </a>            
-        </div>
-        <div class="d-flex flex-column flex-wrap">
-            <a href="#">
-                <img src="https://via.placeholder.com/160x200" width="160" height="200" >
-                <p >
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-                </p>
-            </a>            
-        </div>
-        <div class="d-flex flex-column flex-wrap">
-            <a href="#">
-                <img src="https://via.placeholder.com/160x200" width="160" height="200">
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-                </p>
-            </a>
+        *@
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="dvd-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h1 class="modal-title fs-5 w-100" id="staticBackdropLabel"><span id="dvd-title" style="font-size: 30px;"></span></h1>
+                    <button type="button" class="btn-close" id="modal-close-button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modal-body">
+                    <div class="text-center">
+                        <input type="number" id="dvd-id" hidden/>
+                        <img id="dvd-image" class="mb-2" />
+                        <p style="font-size: 20px;"> Category: <span id="dvd-category-modal"></span></p>
+                        <p id="dvd-description-modal"></p>                
+                    </div>
+
+                    <div class="d-flex">
+                        <h3 id="dvd-price-modal" class="ms-5"> Price: <span id="dvd-price-modal-span"></span></></h3>
+                        <h3 id="dvd-quantity-modal" class="position-absolute end-0" style="padding-left: 4rem; padding-right: 4rem;">Available: <span id="dvd-quantity-modal-span"></span></h3>
+                    </div>
+                    
+                </div>
+                <div class="d-flex justify-content-center modal-body">
+                    <button type="button" class="btn-lg btn-primary" id="add-to-cart-button">Add to cart</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

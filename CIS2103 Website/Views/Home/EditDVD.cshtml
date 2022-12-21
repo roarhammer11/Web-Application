@@ -16,41 +16,109 @@
 
 
 <div class="container-fluid">
-    <div class="table-responsive">
-        <table class="table table-bordered">
-            <thead class="table-secondary">
-                <tr>
-                    <th scope="col" class="p-3">DVD Name</th>
-                    <th scope="col" class="p-3">Quantity</th>
-                    <th scope="col" class="p-3">Category</th>
-                    <th scope="col" class="p-3">Rate Per Rent</th>
-                    <th scope="col" class="p-3">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row" class="p-3">1</th>
-                    <td class="p-3">Mark</td>
-                    <td class="p-3">Otto</td>
-                    <td class="p-3">mdo</td>
-                    <td class="p-3">Edit</td>
-                </tr>
-                <tr>
-                    <th scope="row" class="p-3">2</th>
-                    <td class="p-3">Jacob</td>
-                    <td class="p-3">Thornton</td>
-                    <td class="p-3">fat</td>
-                    <td class="p-3">Edit</td>
-                </tr>
-                <tr>
-                    <th scope="row" class="p-3">3</th>
-                    <td class="p-3">Larryd</td>
-                    <td class="p-3">the Bird</td>
-                    <td class="p-3">twitter</td>
-                    <td class="p-3">Edit</td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="ms-3 d-flex dvd-container flex-wrap" id="dvds">
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="edit-dvd-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h1 class="modal-title fs-5 w-100" id="staticBackdropLabel"><span style="font-size: 30px;"> Edit DVD</span></h1>
+                    <button type="button" class="btn-close" id="close-edit-modal-button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modal-body">
+                    <form id="edit-dvd-form">
+                        <div class="m-auto">
+                            <input type="number" id="dvd-id" hidden />
+                            <h4>DVD Name</h4>
+                            <input type="text" class="form-control form-control-lg" name="DVDName" id="dvd-title" required />
+                            <h4>Quantity</h4>
+                            <input type="number" class="form-control form-control-lg" name="Quantity" id="dvd-quantity-modal-span" required />
+                            <h4>Category</h4>
+                            <div class="d-flex flex-column flex-wrap justify-content-between" id="category-div">
+                                <div>
+                                    <input type="checkbox" id="Action" name="Action" value="Action">
+                                    <label for="Action"> Action</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="Adult" name="Adult" value="Adult">
+                                    <label for="Adult"> Adult</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="Adventure" name="Adventure" value="Adventure">
+                                    <label for="Adventure"> Adventure</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="Animation" name="Animation" value="Animation">
+                                    <label for="Animation"> Animation</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="Biography" name="Biography" value="Biography">
+                                    <label for="Biography"> Biography</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="Comedy" name="Comedy" value="Comedy">
+                                    <label for="Comedy"> Comedy</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="Crime" name="Crime" value="Crime">
+                                    <label for="Crime"> Crime</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="Documentary" name="Documentary" value="Documentary">
+                                    <label for="Documentary"> Documentary</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="Drama" name="Drama" value="Drama">
+                                    <label for="Drama"> Drama</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="Family" name="Family" value="Family">
+                                    <label for="Family"> Family</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="Fantasy" name="Fantasy" value="Fantasy">
+                                    <label for="Fantasy"> Fantasy</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="History" name="History" value="History">
+                                    <label for="History"> History</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="Horror" name="Horror" value="Horror">
+                                    <label for="Horror"> Horror</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="Musical" name="Musical" value="Musical">
+                                    <label for="Musical"> Musical</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="Mystery" name="Mystery" value="Mystery">
+                                    <label for="Mystery"> Mystery</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="Sci-Fi" name="Sci-Fi" value="Sci-Fi">
+                                    <label for="Sci-Fi"> Sci-Fi</label>
+                                </div>
+                            </div>
+                            <h4>Description</h4>
+                            <input type="text" class="form-control form-control-lg" name="Description" id="dvd-description-modal" required />
+                            <h4>Rate Per Rent</h4>
+                            <input type="number" class="form-control form-control-lg" name="RatePerRent" id="dvd-price-modal-span" required />
+                            <h4>Image (Optional)</h4>
+                            <input type="file" id="Image" name="Image" accept="image/*" disabled>
+                            <div class="text-center">
+                                <button type="submit"
+                                        class="btn btn-success btn-block btn-lg gradient-custom-4 text-body mt-3">
+                                    Submit
+                                </button>
+                            </div>
+                        </div>                      
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

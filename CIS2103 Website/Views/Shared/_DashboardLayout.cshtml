@@ -18,8 +18,8 @@
         </div>
         <a id="Home" asp-action="Dashboard" asp-route-accountId="@ViewData["AccountId"]">Home</a>
         <a id="EditDVD" asp-action="EditDVD" asp-route-accountId="@ViewData["AccountId"]">Edit DVD</a>
-        <a id="AddDVD" @*asp-action="Add DVD"*@>Add DVD</a>
-        <a id="Cart" @*asp-action="Cart"*@>Cart</a>
+        <a id="AddDVD" asp-action="AddDVD" asp-route-accountId="@ViewData["AccountId"]">Add DVD</a>
+        <a id="Cart" asp-action="Cart" asp-route-accountId="@ViewData["AccountId"]">Cart</a>
         <a id="Transactions" asp-action="Transactions" asp-route-accountId="@ViewData["AccountId"]">Transactions</a>
         <a id="Accounts" asp-action="Accounts" asp-route-accountId="@ViewData["AccountId"]">Accounts</a>
         <div id="Account-Dropdown" class="btn-group dropup position-absolute bottom-0 start-0 pe-auto">
@@ -45,13 +45,13 @@
             <div class="modal-content">
                 <div class="modal-header text-center">
                     <h1 class="modal-title fs-5 w-100" id="exampleModalLabel">Add Cash</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" id="close-cash-modal-button" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="add-cash-form" class="text-center">
                         <input type="number" id="AccountId" value="@ViewData["AccountId"]"hidden />
                         <h3>Input Amount</h3>
-                        <input type="number" class="form-control form-control-lg" name="CashAmount" id="CashAmount" placeholder="Cash" />
+                        <input type="number" class="form-control form-control-lg" name="CashAmount" id="CashAmount" placeholder="Cash" required/>
                         <div class="d-flex justify-content-center"><button type="submit" class="btn btn-primary">Save changes</button></div>
                     </form>
                 </div>

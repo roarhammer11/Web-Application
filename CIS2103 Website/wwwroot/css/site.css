@@ -74,24 +74,24 @@ div.content {
 /*.modal-body {
     margin: auto;
 }*/
-.modal-body > form > div{
+.modal-body > form > div {
     margin: 1rem;
-    text-align:start;
+    text-align: start;
 }
+
 .gradient-custom-4 {
-/* fallback for old browsers */
-background: #84fab0;
-
-/* Chrome 10-25, Safari 5.1-6 */
-background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1));
-
-/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1))
+    /* fallback for old browsers */
+    background: #84fab0;
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1));
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1))
 }
 
-.modal-body > form > div > label{
+.modal-body > form > div > label {
     margin-right: 1rem;
 }
+
 .index-container {
     margin: auto;
     width: 21.75rem;
@@ -135,7 +135,6 @@ hr {
 
 .container-fluid {
     margin-top: 7rem;
-    
 }
 
 .dvd-container > div {
@@ -162,7 +161,7 @@ th, td {
 
 #searchbar-container {
     top: 0;
-    max-height:4rem;
+    max-height: 4rem;
 }
 
 .searchbar {
@@ -174,11 +173,11 @@ th, td {
     padding: 10px;
 }
 
-.searchbar > p{
-    margin-top: 0.5rem;
-    color: white;
-    transition: width 0.4s linear;
-}
+    .searchbar > p {
+        margin-top: 0.5rem;
+        color: white;
+        transition: width 0.4s linear;
+    }
 
 .search_input {
     color: white;
@@ -197,15 +196,18 @@ th, td {
     caret-color: red;
     transition: width 0.4s linear;
 }
+
 .searchbar:hover > p {
     visibility: hidden;
     transition: visibility 0.4s linear, opacity 0.4s linear, display 0.4s;
     opacity: 0;
 }
+
 .searchbar > p {
     transition: visibility 0.4s linear, opacity 0.4s linear;
     visibility: visible;
 }
+
 .searchbar:hover > .search_icon {
     background: white;
     color: #e74c3c;
@@ -222,4 +224,18 @@ th, td {
     border-radius: 50%;
     color: white;
     text-decoration: none;
+}
+
+/*add dvd*/
+.add-dvd-container {
+    margin-left: 25rem;
+    margin-top: 5rem;
+}
+
+#add-dvd-form > div > input {
+    margin-bottom: 1rem;
+}
+
+#category-div {
+    height: 200px;
 }
