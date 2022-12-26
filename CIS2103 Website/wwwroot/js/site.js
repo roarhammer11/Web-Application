@@ -287,16 +287,15 @@ if (currentUrl == "https://localhost:7260/") {
                                 dvdImage.src = "https://via.placeholder.com/210x315";
                             }
                             dvdName.innerHTML = data[x].dvdName;
-                            dvdId.innerHTML = data[x].dvdId;
+                            dvdId.value = data[x].dvdId;
                             dvdQuantity.innerHTML = data[x].quantity;
                             dvdDescription.innerHTML = data[x].description
                             dvdRatePerRent.innerHTML = data[x].ratePerRent;
                             dvdCategory.innerHTML = data[x].category;
                             dvdContainer.href = "#";
                             dvdContainer.setAttribute("onclick", "dynamicallyOpenDVDModal(this)");
-                            /*dvdContainer.setAttribute("data-toggle", "modal");
-                            dvdContainer.setAttribute("data-target", "dvd-modal");*/
-                            dvdId.setAttribute("id", data[x].dvdId);
+                            /*dvdId.setAttribute("id", data[x].dvdId);*/
+                            dvdId.setAttribute("id", data[x].dvdName);
                             dvdQuantity.setAttribute("id", "dvd-quantity");
                             dvdDescription.setAttribute("id", "dvd-description");
                             dvdRatePerRent.setAttribute("id", "dvd-rate-per-rent");
@@ -384,8 +383,8 @@ if (currentUrl == "https://localhost:7260/") {
         editDVDForm.addEventListener('submit', function handleSubmit(event) {
             event.preventDefault();
             const closeModalButton = document.getElementById("close-edit-modal-button");
-            const dvdId = $("#dvd-id").val().trim();
             const dvdName = $("#dvd-title").val().trim();
+            const dvdId = $("input[id='" + dvdName + "']").val().trim();
             const quantity = $("#dvd-quantity-modal-span").val().trim();
             const category = getCheckBoxValues();
             const description = $("#dvd-description-modal").val().trim();
@@ -393,6 +392,7 @@ if (currentUrl == "https://localhost:7260/") {
             const dvdImage = (document.getElementById("Image").files.length != 0) ? document.getElementById("Image").files : "NULL";
             const ratePerRent = $("#dvd-price-modal-span").val().trim();
             const formData = new FormData();
+            /*console.log();*/
             formData.append("DVDId", dvdId);
             formData.append("DVDName", dvdName);
             formData.append("Quantity", quantity);
@@ -436,7 +436,7 @@ if (currentUrl == "https://localhost:7260/") {
         const dvdTitle = document.getElementById("dvd-title");
         const dvdQuantity = document.getElementById("dvd-quantity-modal-span");
         const dvdId = document.getElementById("dvd-id");
-
+        /*console.log(dvdId.);*/
         if (title == "Dashboard") {
             const dvdImage = document.getElementById("dvd-image");
             dvdImage.src = dvdValues[5].src;
@@ -445,8 +445,8 @@ if (currentUrl == "https://localhost:7260/") {
             dvdPrice.innerHTML = dvdValues[3].innerHTML;
             dvdTitle.innerHTML = dvdValues[6].innerHTML;
             dvdQuantity.innerHTML = dvdValues[2].innerHTML;
-            dvdId.value = parseInt(dvdValues[0].id);
-            /*console.log(dvdId.value);*/
+            dvdId.value = parseInt($("input[id='" + dvdValues[0].id + "']").val().trim());
+            /*console.log(dvdValues[0].id);*/
             $('#dvd-modal').modal('show');
         } else {
             const categories = dvdValues[4].innerHTML.split(',');
@@ -469,10 +469,14 @@ if (currentUrl == "https://localhost:7260/") {
     }
 
     function addToCart() {
-        const addToCartButton = document.getElementById("add-to-cart-button");
 
+        const addToCartButton = document.getElementById("add-to-cart-button");
+        /* const dvdId = */
+        /*console.log(addToCartButton.parentElement.parentElement.children[]);*/
         addToCartButton.addEventListener("click", function handleSubmit(event) {
+
             const dvdId = document.getElementById("dvd-id");
+            console.log(dvdId.value);
             appendCartToSessionStorage("Cart", dvdId.value);
         });
     }
@@ -492,13 +496,69 @@ if (currentUrl == "https://localhost:7260/") {
         sessionStorage.setItem(name, JSON.stringify(cart));
     }
 
-    function setCart() {
+    async function setCart() {
         const cartContainer = document.getElementById("cart-container");
         var cart = JSON.parse(sessionStorage.getItem("Cart"));
+        var i;
         if (cart === null) {
             cartContainer.innerHTML = "Cart is empty";
         } else {
             console.log(cart);
+            var dvdTotal = 0;
+            for (i = 0; i < cart.length; i++) {
+                const formData = new FormData();
+                formData.append("DVDId", cart[i]);
+
+                fetch("/Home/GetSingleDVD", { method: "POST", body: formData })
+                    .then((response) => {
+                        if (response.ok) {
+                            response.json().then((data) => {
+                                const cartContainer = document.getElementById("cart-container");
+
+                                const flexContainer = document.createElement("div");
+                                const dvdContainer = document.createElement("div");
+                                const dvdId = document.createElement("input");
+                                const dvdImage = document.createElement("img");
+                                const dvdName = document.createElement("p");
+                                const quantityPriceContainer = document.createElement("div");
+                                const dvdQuantity = document.createElement("input");
+                                const dvdPrice = document.createElement("p");
+                                const totalPriceLabel = document.getElementById("total-price");
+                                dvdImage.src = "https://via.placeholder.com/120x120";
+                                dvdName.innerHTML = data.dvdName;
+                                dvdImage.setAttribute("style", "margin-bottom: 2rem;");
+                                dvdName.setAttribute("style", "margin-top: 3rem; margin-left: 1rem;");
+                                dvdContainer.appendChild(dvdImage);
+                                dvdContainer.appendChild(dvdName);
+                                dvdContainer.setAttribute("style", "width: 500px");
+                                dvdContainer.setAttribute("class", "d-flex");
+                                flexContainer.setAttribute("class", "d-flex");
+                                flexContainer.appendChild(dvdContainer);
+                                quantityPriceContainer.setAttribute("class", "d-flex");
+                                quantityPriceContainer.setAttribute("style", "margin-right: 1rem; margin-top: 3rem; margin-left: 6.5rem; max-height: 30px;");
+                                dvdQuantity.value = 1;
+                                dvdQuantity.setAttribute("min", "1");
+                                dvdPrice.innerHTML = data.ratePerRent;
+                                dvdPrice.setAttribute("style", "margin-top: 5px; margin-left: 20.5rem;");
+                                dvdQuantity.setAttribute("style", "max-width: 40px;");
+                                quantityPriceContainer.appendChild(dvdQuantity);
+                                quantityPriceContainer.appendChild(dvdPrice);
+                                dvdTotal = dvdTotal + data.ratePerRent;
+                                flexContainer.appendChild(quantityPriceContainer);
+                                if (i == cart.length) {
+                                    totalPriceLabel.innerHTML = dvdTotal;
+                                }
+                                cartContainer.insertBefore(flexContainer, cartContainer.children[1]);
+                            });
+                        } else {
+                            alert("Server could not process at the moment");
+                        }
+                    }).catch((error) => {
+                        console.log(error);
+                    }
+                    );
+            }
+
         }
     }
 }

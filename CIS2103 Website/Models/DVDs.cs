@@ -86,7 +86,7 @@ namespace CIS2103_Website.Models
                 editDVDQuery = "UPDATE DVD SET dvdName='" + fc["DVDName"] + "',quantity='" + fc["Quantity"]
                                  + "',description='" + fc["Description"] + "',category='" + fc["Category"] + "',ratePerRent='" + fc["RatePerRent"] + "' WHERE dvdId='" + fc["DVDId"] + "'";
             }
-
+            /*Console.WriteLine(fc["DVDId"]);*/
             db.Query(editDVDQuery);
             return Ok("DVD Updated Sucessfully");
         }
@@ -104,6 +104,15 @@ namespace CIS2103_Website.Models
                 dvds[i] = db.ReadDVDQuery(getDvdQuery);
             }
             return Ok(dvds);
+        }
+
+        public IActionResult GetSingleDVDCode(IFormCollection fc)
+        {
+            DVDModel dvd = new();
+            Console.WriteLine(fc["DVDId"]);
+            string getDvdQuery = "SELECT * FROM DVD WHERE dvdId=" + fc["DVDId"];
+            dvd = db.ReadDVDQuery(getDvdQuery);
+            return Ok(dvd);
         }
 
     }

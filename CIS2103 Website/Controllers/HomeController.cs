@@ -131,6 +131,13 @@ namespace CIS2103_Website.Controllers
             return dvds.GetAllDVDsCode();
         }
 
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public IActionResult GetSingleDVD(IFormCollection fc)
+        {
+            return dvds.GetSingleDVDCode(fc);
+        }
+
         public IActionResult Privacy()
         {
             return View();

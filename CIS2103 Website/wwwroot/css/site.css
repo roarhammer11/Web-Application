@@ -229,7 +229,7 @@ th, td {
 /*add dvd*/
 .add-dvd-container {
     margin-left: 25rem;
-    margin-top: 5rem;
+    margin-top: 3rem;
 }
 
 #add-dvd-form > div > input {
@@ -238,4 +238,9 @@ th, td {
 
 #category-div {
     height: 200px;
+}
+
+/*cart*/
+#cart-container {
+    margin-top: 4rem;
 }
